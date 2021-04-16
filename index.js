@@ -19,10 +19,23 @@ const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 client.connect(err => {
     console.log('Connection error',err);
-    
-    
 
+  const serviceCollection = client.db("BookByteLibrary").collection("services");
+
+  app.post('/admin', (req, res) => {
+    const newService = req.body;
+    console.log('Adding new product',newService);
+    serviceCollection.insertOne(newService)
+    .then(result => {
+        console.log('Inserted count', result.insertedCount);
+        res.send(result.insertedCount > 0)
+    })
+  })
+  
+
+//   client.close();
 });
+
 // ---------- app listen ----------
 
 app.listen(port, () => {
