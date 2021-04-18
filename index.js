@@ -20,6 +20,8 @@ const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology:
 client.connect(err => {
     console.log('Connection error',err);
 
+    // ------------- Service Collection --------------------
+
   const serviceCollection = client.db("BookByteLibrary").collection("services");
 
   app.post('/admin', (req, res) => {
@@ -40,6 +42,7 @@ client.connect(err => {
   })
   
 // ------------- Review Collection --------------------
+
   const reviewCollection = client.db("BookByteLibrary").collection("reviews");
 
   app.post('/addReview', (req, res) => {
