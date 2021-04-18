@@ -39,6 +39,26 @@ client.connect(err => {
     })
   })
   
+// ------------- Review Collection --------------------
+  const reviewCollection = client.db("BookByteLibrary").collection("reviews");
+
+  app.post('/addReview', (req, res) => {
+    const newReview = req.body;
+    console.log('Adding new Review',newReview);
+    reviewCollection.insertOne(newReview)
+    .then(result => {
+        console.log('Inserted count', result.insertedCount);
+        res.send(result.insertedCount > 0)
+    })
+  })
+
+  app.get('/reviews', (req, res) => {
+    reviewCollection.find()
+    .toArray((err, items) => {
+        res.send(items);
+    })
+  })
+
 
 //   client.close();
 });
