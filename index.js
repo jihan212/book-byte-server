@@ -23,12 +23,19 @@ client.connect(err => {
   const serviceCollection = client.db("BookByteLibrary").collection("services");
 
   app.post('/admin', (req, res) => {
-    const newService = req.body;
-    console.log('Adding new product',newService);
-    serviceCollection.insertOne(newService)
+    const newProduct = req.body;
+    console.log('Adding new product',newProduct);
+    serviceCollection.insertOne(newProduct)
     .then(result => {
         console.log('Inserted count', result.insertedCount);
         res.send(result.insertedCount > 0)
+    })
+  })
+
+  app.get('/services', (req, res) => {
+    serviceCollection.find()
+    .toArray((err, items) => {
+        res.send(items);
     })
   })
   
