@@ -40,6 +40,21 @@ client.connect(err => {
         res.send(items);
     })
   })
+
+  app.get('/services/:id', (req, res) => {
+    serviceCollection.find()
+      .toArray((err, items) => {
+        const id = req.params.id;
+        const service = items.find(i=> {
+          return i._id == id
+      })
+        if (!service){
+          return res.status(404).send({message:"not found"})
+        } else {
+          return res.status(200).send(service)
+        }
+      })
+    })
   
 // ------------- Review Collection --------------------
 
