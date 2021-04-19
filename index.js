@@ -77,6 +77,25 @@ client.connect(err => {
     })
   })
 
+// ----------- Order Collection --------------------
+  const orderCollection = client.db("BookByteLibrary").collection("order");
+
+  app.get('/order', (req, res) => {
+    console.log(req.query.email);
+    orderCollection.find({email: req.query.email})
+    .toArray((err , documents) => {
+      res.send(documents)
+    })
+  })
+
+  app.post('/addOrder', (req, res) => {
+    const newOrder = req.body;
+    orderCollection.insertOne(newOrder)
+    .then (result => {
+      console.log(result);
+    })
+    console.log(newOrder);
+  })
 
 //   client.close();
 });
